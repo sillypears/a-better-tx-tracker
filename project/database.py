@@ -12,8 +12,16 @@ def connect_db(conf):
   if not database_exists(engine.url): 
     create_database(engine.url)
     
-  print(engine)
   return engine
+
+def get_sales():
+  return models.Sale.query.order_by(models.Sale.name).all()
 
 def get_makers():
   return models.Maker.query.order_by(models.Maker.name).all()
+
+def get_vendors():
+  return models.Vendor.query.order_by(models.Vendor.name).all()
+
+def get_entries():
+  return models.Entry.query.order_by(models.Entry.id).all()
