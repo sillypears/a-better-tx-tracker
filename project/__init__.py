@@ -5,9 +5,7 @@ from urllib.parse import urlparse
 import os
 
 from . import database
-
-# init SQLAlchemy so we can use it later in our models
-db = None
+from .models import db
 
 url = urlparse(os.environ.get('DATABASE_URL'))
 
@@ -33,16 +31,12 @@ def create_app():
     app.config['majorVersion'] = 1
     app.config['minorVersion'] = 0.1
     CORS(app)
-    db = SQLAlchemy(app)
-    with app.app_context():
-      db.create_all()
-      db.session.commit()
-    # db.init_app(app)
-    print(vars(db))
+    db.init_app(app)
     
-    # from . import models
-    # database.connect_db(app.config)
-                              
+    @app.before_first_request
+    def check_db():
+        database.connect_db(app.config)
+    
     @app.after_request
     def add_header(response):
         response.headers['Access-Control-Allow-Origin'] = '*'

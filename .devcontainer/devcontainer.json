@@ -14,15 +14,18 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
-
+	"postCreateCommand": "pip3 install --user -r requirements.txt",
+	
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
 			"extensions": ["donjayamanne.python-extension-pack"]
 		}
+	},
+	"remoteEnv": {
+		"FLASK_APP": "project",
+		"DATABASE_URL": "postgresql+psycopg2://postgres:postgres@192.168.1.10:5433/kb-tx"
 	}
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
