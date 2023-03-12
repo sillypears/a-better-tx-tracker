@@ -28,15 +28,17 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['CONFIG'] = Config   
-    app.config['majorVersion'] = 1
-    app.config['minorVersion'] = 0.1
+    app.config['MAJOR_VERSION'] = 1
+    app.config['MINOR_VERSION'] = 0.1
     CORS(app)
     db.init_app(app)
     
     @app.before_first_request
     def check_db():
+        print('checking db')
         database.connect_db(app.config)
-    
+        db.create_all()
+        
     @app.after_request
     def add_header(response):
         response.headers['Access-Control-Allow-Origin'] = '*'
@@ -49,8 +51,8 @@ def create_app():
     # from .utils import utils as utils_blueprint
     # app.register_blueprint(utils_blueprint)
 
-    # from .api import api as api_blueprint
-    # app.register_blueprint(api_blueprint)
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint)
 
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
