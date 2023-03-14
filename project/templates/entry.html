@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+  {% for e in entry %}
+    <div class="card big-card {% if not e.received %}not-{% endif %}arrived">
+      <div class="card-title">
+        <div class="row">
+          <div class="col-md-6 text-start">
+            Maker: <a href="/maker/{{e.maker_name.id}}" >  {{e.maker_name.display}} </a>
+          </div>
+          <div class="col-md-6 text-end">
+            Vendor: <a href="/vendor/{{e.vendor_name.id}}" >  {{e.vendor_name.display}} </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <img class="entry-img " src="{% if (e.image) %} {{ e.image }} {% else %} {{ url_for('static', filename='img/missing.png')}} {% endif %}" />
+        </div>
+        <div class="clw">
+          {{e.colorway}}          
+        </div>
+        <span class="sculpt border">
+          {{e.sculpt_name}}
+          
+        </span>
+        /
+        <span class="sculpt border">
+          {{e.display_name}}      
+        </span>
+      </div>
+
+    {{e.clw_num}}
+    {{e.clw_total}}
+    {{e.price}}
+    {{e.adjustment}}
+    {{e.retail}}
+    {{e.sale_id}}
+    {{e.sale_post}}
+    {{e.epoch}}
+    {{e.purchase_date}} 
+    {{e.received_date}}
+    {{e.sold_date}}
+    {{e.is_sold}}
+    {{e.will_sell}}
+    {{e.notes}}
+    {{e.sculpt_style_id}}
+    {{e.maker_name.display}}
+    {{e.vendor_name.display}}
+    {{e.sale_name.display}}
+    {{e.sculpt_style.display}}
+    </div>
+    {% endfor %}
+{% endblock %}

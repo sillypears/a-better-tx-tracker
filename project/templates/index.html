@@ -5,16 +5,16 @@
   </p>
 
   {% for e in entries %}
-    <div class="card">
-      <div class="card-title">
+    <a class="card" href="/entry/{{e.id}}">
+      <img src="{% if e.image %} {{ e.image }} {% else %} {{url_for('static', filename='img/missing.png')}} {% endif %}" class="card-img-top">
+      <div class="card-title text-center">
         {{ e.maker_name.display }}
       </div>
-      <div class="card-body">
-        {{ e.colorway}}
-        {{ e.sculpt_name}}
-        <span id="clw_num">{{ e.clw_num }}</span>/<span id="clw_total">{{ e.clw_total }}</span>
+      <div class="card-body text-center">
+        {{ e.colorway}}/{{ e.sculpt_name}} ->
+        #<span id="clw_num">{{ e.clw_num }}</span> /<span id="clw_total">{{ e.clw_total }}</span>
       </div>
 
-    </div>
+    </a>
   {% endfor %}
 {% endblock %}

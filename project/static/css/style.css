@@ -1,3 +1,30 @@
 body {
   padding-top: 3rem;
 }
+
+a {
+  color: inherit;
+}
+
+.card {
+  width: 18rem;
+  text-decoration: none;
+}
+
+.big-card {
+  width: 100%;
+  border: 1;
+  padding: 10px;
+}
+
+.entry-img {
+  width: 480px;
+}
+
+.arrived {
+  border-left: 5px solid #73BD07;
+}
+
+.not-arrived {
+  border-left: 5px solid #dd0202;
+}

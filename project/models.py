@@ -105,11 +105,16 @@ class Entry(db.Model):
     retail: float
     sale_id: int
     sale_post: str
-    result: int
+    image: str
+    received: int
     epoch: int
     purchase_date: str 
     received_date: str
     sold_date: str
+    is_sold: int
+    will_sell: int
+    notes: str
+    count_include: int
     sculpt_style_id: int
     maker_name: Mapped[str]
     vendor_name: Mapped[str]
@@ -132,11 +137,18 @@ class Entry(db.Model):
     retail = Column(Float, nullable=False)
     sale_id = Column(Integer, ForeignKey('sales.id'), nullable=False)
     sale_post = Column(String(500))
-    result = Column(Boolean, server_default=expression.true(), nullable=False)
+    image = Column(String(500))
+    received = Column(Boolean, server_default=expression.true(), nullable=False)
     epoch = Column(Integer, nullable=False)
     purchase_date = Column(Date, nullable=False)
     received_date = Column(Date, nullable=False)
     sold_date = Column(Date, nullable=False)
+    notes = Column(String(500))
+    is_sold = Column(Boolean, server_default=expression.false(), nullable=False)
+    will_sell = Column(Boolean, server_default=expression.true(), nullable=False)
+
+    count_include = Column(Boolean, server_default=expression.true(), nullable=False)
+    
     sculpt_style_id = Column(Integer, ForeignKey('styles.id'), nullable=False, default=1)
     maker_name = relationship("Maker", primaryjoin=("and_(Entry.maker_id==Maker.id)"), backref="makers")
     vendor_name = relationship("Vendor", primaryjoin=("and_(Entry.vendor_id==Vendor.id)"), backref="vendors")

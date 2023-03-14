@@ -25,3 +25,6 @@ def get_vendors():
 
 def get_entries():
   return models.Entry.query.order_by(models.Entry.id).all()
+
+def get_entry(id):
+  return models.Entry.query.filter_by(id=id)
