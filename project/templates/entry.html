@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
+  <div>
+    {% if control.results.prev > 0 %} <a href="/entry/{{ control.results.prev }}"><--</a> {% endif %}
+    {% if control.results.next > 0 %} <a href="/entry/{{ control.results.next }}">--></a> {% endif %}
+  </div>
   {% for e in entry %}
     <div class="card big-card {% if not e.received %}not-{% endif %}arrived">
       <div class="card-title">
@@ -27,6 +31,9 @@
         <span class="sculpt border">
           {{e.display_name}}      
         </span>
+        <div class="card-footer">
+          {% if e.price + e.adjustment > 0 %} {{ "${:,.2f}".format(e.price) }} + {{ "${:,.2f}".format(e.adjustment) }} {% endif %}
+        </div>
       </div>
 
     {{e.clw_num}}

@@ -15,4 +15,4 @@ def entry():
 @main.route("/entry/<id>", methods=["GET"])
 def entry_id(id):
   entry = db.get_entry(id)
-  return render_template("entry.html", nav="entry", entry=entry)
+  return render_template("entry.html", nav="entry", entry=entry, control=db.get_next_id(id))
