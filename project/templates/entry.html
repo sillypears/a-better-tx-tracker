@@ -31,30 +31,33 @@
         <span class="sculpt border">
           {{e.display_name}}      
         </span>
-        <div class="card-footer">
-          {% if e.price + e.adjustment > 0 %} {{ "${:,.2f}".format(e.price) }} + {{ "${:,.2f}".format(e.adjustment) }} {% endif %}
+        <div>
+          {{e.clw_num}} / 
+          {{e.clw_total}}
         </div>
+        
       </div>
-
-    {{e.clw_num}}
-    {{e.clw_total}}
-    {{e.price}}
-    {{e.adjustment}}
-    {{e.retail}}
-    {{e.sale_id}}
-    {{e.sale_post}}
-    {{e.epoch}}
-    {{e.purchase_date}} 
-    {{e.received_date}}
-    {{e.sold_date}}
-    {{e.is_sold}}
-    {{e.will_sell}}
-    {{e.notes}}
-    {{e.sculpt_style_id}}
-    {{e.maker_name.display}}
-    {{e.vendor_name.display}}
-    {{e.sale_name.display}}
-    {{e.sculpt_style.display}}
+      <div class="card-footer">
+        {% if e.price + e.adjustment > 0 %} {{ "${:,.2f}".format(e.price) }} + {{ "${:,.2f}".format(e.adjustment) }} {% endif %}
+      </div>
     </div>
     {% endfor %}
 {% endblock %}
+
+{{e.price}}
+{{e.adjustment}}
+{{e.retail}}
+{{e.sale_id}}
+{{e.sale_post}}
+{{e.epoch}}
+{{e.purchase_date}} 
+{{e.received_date}}
+{{e.sold_date}}
+{{e.is_sold}}
+{{e.will_sell}}
+{{e.notes}}
+{{e.sculpt_style_id}}
+{{e.maker_name.display}}
+{{e.vendor_name.display}}
+{{e.sale_name.display}}
+{{e.sculpt_style.display}}

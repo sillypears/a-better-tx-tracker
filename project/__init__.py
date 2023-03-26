@@ -27,7 +27,8 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    app.config['CONFIG'] = Config   
+    app.config['CONFIG'] = Config
+    app.config['ROWNUM'] = 6*2
     app.config['MAJOR_VERSION'] = 1
     app.config['MINOR_VERSION'] = 0.1
     CORS(app)
@@ -48,8 +49,8 @@ def create_app():
         
     # blueprint for auth routes in our app
 
-    # from .utils import utils as utils_blueprint
-    # app.register_blueprint(utils_blueprint)
+    from .utils import utils as utils_blueprint
+    app.register_blueprint(utils_blueprint)
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint)

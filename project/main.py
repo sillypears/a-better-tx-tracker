@@ -6,7 +6,9 @@ main = Blueprint('main', __name__)
 
 @main.route("/", methods=["GET"])
 def index():
-  return render_template("index.html", nav="index", entries=db.get_entries())
+  rowcount = current_app.config['ROWNUM']
+  
+  return render_template("index.html", nav="index", entries=db.get_entries_paginated(0,rowcount*2), total_entries=db.get_entries_total())
 
 @main.route("/entry", methods=["GET"])
 def entry():

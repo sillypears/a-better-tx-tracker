@@ -49,3 +49,19 @@ def api_entries():
   
   if request.method == "POST":
     pass
+
+@api.route('/entries/<offset>', defaults={'limit':None}, methods=["GET", "POST"])
+@api.route('/entries/<offset>/<limit>', methods=["GET", "POST"])
+
+def api_entries_paginated(offset, limit):
+  if limit is None: int(offset),current_app.config['ROWNUM']
+  
+  if request.method == "GET":
+    return jsonify(db.get_entries_paginated(int(offset), int(limit)))
+  
+  if request.method == "POST":
+    pass
+
+@api.route('/totalEntries', methods=["GET"])
+def api_total_entries():
+  return jsonify({'total_entries': len(db.get_entries())})

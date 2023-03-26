@@ -1,20 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-  <!-- <div class="col-12">
-    hi {{ entries | length }}
-  </div> -->
-  <div class="row row-cols-5">
-
-    {% for e in entries %}
+    <!-- {% for e in entries %}
     <div class="col-10 col-md-5 col-lg-3 col-xl-2">
       <div class="card {% if not e.received %}not-{% endif %}arrived">
         <a class="link" href="/entry/{{e.id}}">
           <img src="{% if e.image %} {{ e.image }} {% else %} {{url_for('static', filename='img/missing.png')}} {% endif %}" class="card-img-top">
         </a>
-          <div class="card-title text-center">
-            {{ e.maker_name.display }}
-          </div>
-          <div class="card-body text-center">
+        <div class="card-title text-center">
+          {{ e.maker_name.display }}
+        </div>
+        <div class="card-body text-center">
           <div>
             {{ e.colorway}}/{{ e.sculpt_name}}
           </div>
@@ -24,9 +19,26 @@
           </div>
           {% endif %}
         </div>
+        <div class="card-footer">
+          <div class="text-start">{{e.is_sold}}</div>
+          <div class="text-end">{{e.will_sell}}</div>
+        </div>
       </div>
     </div>
     {% endfor %}
-    
+  </div> -->
+  <div id="card-container" class="row">
+    <div id="loader">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
   </div>
+    <div class="card-actions">
+      <span>Showing 
+        <span id="card-count">0</span> of 
+        <span id="card-total">{{ total_entries }}</span> caps  
+      </span>
+    </div> 
+  
 {% endblock %}

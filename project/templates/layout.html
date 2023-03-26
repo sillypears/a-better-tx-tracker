@@ -42,7 +42,7 @@
         </div>
 
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid w-90">
     {% block content %}
     {% endblock %}
     </div>
@@ -54,7 +54,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"
         integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    {% if nav == "index" %}<script src="{{ url_for('static', filename='js/index.js') }}"></script>{% endif %}
     <footer class="footer fixed-bottom bg-dark">
         <div class="row m-1">
             <div class="col-lg-4">

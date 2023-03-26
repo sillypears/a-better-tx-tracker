@@ -35,5 +35,12 @@ def get_vendors():
 def get_entries():
   return models.Entry.query.order_by(models.Entry.purchase_date.desc()).all()
 
+def get_entries_paginated(limit, offset):
+  print(offset, limit)
+  return models.Entry.query.order_by(models.Entry.purchase_date.desc()).offset(offset).limit(limit).all()
+
+def get_entries_total():
+  return models.Entry.query.count()
+
 def get_entry(id: int):
   return models.Entry.query.filter_by(id=id)
