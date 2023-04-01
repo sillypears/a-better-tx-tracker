@@ -1,5 +1,4 @@
 $(function() {
-  console.log('hi')
   const cardContainer = document.getElementById("card-container");
   const cardCountElem = document.getElementById("card-count");
   const cardTotalElem = document.getElementById("card-total");
@@ -29,7 +28,8 @@ $(function() {
   
   const createCard = (card, index) => {
     let temp = ""
-    temp += `<div class="card truncated ${(!card.received) ? "not-":""}arrived">`
+    temp += `<div class="card ${(!card.received) ? "not-":""}arrived">`
+    temp += `<div class="recieve-toggle" onClick="toggleReceived(${card.id})"><i class="fa fa-envelope" aria-hidden="true"></i> </div>`
     temp +=  `<a class="link size-card-img" href="/entry/${card.id}">`
     temp += `<img src="${(card.image) ? card.image : "/static/img/missing.png"}" class="card-img-top size-card-img">`
     temp += `</a>`
@@ -61,7 +61,6 @@ $(function() {
   
   const addCards = (pageIndex, cards) => {
     currentPage = pageIndex;
-    console.log(cardCountElem.innerHTML)
     cardCountElem.innerHTML = parseInt(cardCountElem.innerHTML) + cards.length
     cards.forEach((card, i) => {
       temp = createCard(card, i)
@@ -90,10 +89,9 @@ $(function() {
   const removeInfiniteScroll = () => {
     window.removeEventListener("scroll", handleInfiniteScroll);
   };
-
-  window.onload = function () {
+  window.onload = new function () {
     let initialLoad = document.querySelector('html').offsetHeight
-    console.log(initialLoad, cardIncrease*Math.floor(( (initialLoad/320))))
+    // console.log(initialLoad, cardIncrease*Math.floor(( (initialLoad/320))))
     let increase = (currentPage, Math.floor(cardIncrease*( (initialLoad/320)/6)))
     $.ajax({
       url: `/api/entries/${cardIncrease*increase}/${(currentPage-1)*cardIncrease*increase}`,
@@ -107,4 +105,19 @@ $(function() {
   };
   
   window.addEventListener("scroll", handleInfiniteScroll);
+  console.log('hi')
 })
+
+function toggleReceived(id) {
+  console.log(id)
+  $.ajax({
+    url: `/api/toggleEntry`,
+    method: "POST",
+    data: `{"toggleId": ${id}}`,
+    dataType: "json",
+    contentType: "application/json",
+    success: function(data) {
+      console.log(`Flipped ${id} to ${data.status}`)
+    }
+  })
+}

@@ -5,7 +5,7 @@ from sqlalchemy.sql import expression
 from sqlalchemy.orm import relationship, Mapped
 from dataclasses import dataclass
 
-db = SQLAlchemy()
+from .extentions import db
 
 @dataclass
 class Maker(db.Model):

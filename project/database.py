@@ -4,8 +4,10 @@ import re, json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
+from flask import current_app
 
-from . import models
+from .models.entry import Entry
+from .extentions import db
 
 def connect_db(conf: object):
   engine = create_engine(conf['SQLALCHEMY_DATABASE_URI'])
@@ -42,5 +44,12 @@ def get_entries_paginated(limit, offset):
 def get_entries_total():
   return models.Entry.query.count()
 
-def get_entry(id: int):
-  return models.Entry.query.filter_by(id=id)
+def get_entry(needle_id: int):
+  return Entry.query.filter_by(id=needle_id).one()
+
+def toggle_received_status(needle_id: int, conf=object):
+
+  status = Entry.query.filter_by(id=needle_id).one()
+  status.received = False if status.received == True else True
+  db.session.commit()
+  return status
