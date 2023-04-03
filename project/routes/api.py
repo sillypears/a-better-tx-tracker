@@ -1,7 +1,6 @@
 
 
-from flask import (Blueprint, current_app, Flask, jsonify, make_response, redirect,
-                   render_template, request, send_file, url_for,)
+from flask import (Blueprint, current_app, jsonify, request)
 import json
 from sqlalchemy.schema import CreateSchema
 from .. import database
@@ -70,6 +69,15 @@ def api_entry(id):
     entry = {"nope": "found nothing", "err": str(e)}
   return jsonify(entry)
 
+@api.route('/entry/<id>/update', methods=["POST"])
+def api_entry_update(id):
+  try:
+    print(id)
+    entry = database.update_entry(id, request.data)
+  except Exception as e:
+    entry = {"nope": "found nothing", "err": str(e)}
+  return jsonify(entry)
+
 @api.route('/toggleEntry', methods=["GET", "POST"])
 def api_toggle_entries():
   if request.method == "GET":
@@ -79,11 +87,12 @@ def api_toggle_entries():
     except:
       result = f"but I couldn't find {request.args.to_dict()}"
     return jsonify(f"got it {result}")
-  try:
-    entry = json.loads(request.data.decode('utf-8'))['toggleId']
-    result = database.toggle_received_status(entry)
-  except Exception as e:
-    print(e)
+  else:
+    try:
+      entry = json.loads(request.data.decode('utf-8'))['toggleId']
+      result = database.toggle_received_status(entry)
+    except Exception as e:
+      print(e)
   return jsonify({'status': 'ok'})
 
 @api.route('/totalEntries', methods=["GET"])

@@ -1,10 +1,5 @@
 from flask import g
 from datetime import datetime
-import re, json
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
-from flask import current_app
 
 from .models.entry import Entry
 from .models.sale import Sale
@@ -12,14 +7,8 @@ from .models.maker import Maker
 from .models.vendor import Vendor
 from .extentions import db
 
-def connect_db(conf: object):
-  engine = create_engine(conf['SQLALCHEMY_DATABASE_URI'])
-  if not database_exists(engine.url): 
-    create_database(engine.url)
-    
-  return engine
-
-def get_next_id(id: int):
+# Get requests
+def get_paged_ids(id: int):
   control = {"results": {"prev": -1, "next": -1}} 
   prev_item = Entry.query.order_by(Entry.purchase_date.desc()).filter(Entry.id < id).first()
   next_item = Entry.query.order_by(Entry.purchase_date.asc()).filter(Entry.id > id).first()
@@ -28,31 +17,41 @@ def get_next_id(id: int):
   if next_item is not None and next_item.id > 0: control["results"]["next"] = next_item.id
   return control
   
-def get_sales():
+def get_sales() -> list[Sale]:
   return Sale.query.order_by(Sale.name).all()
 
-def get_makers():
+def get_makers() -> list[Maker]:
   return Maker.query.order_by(Maker.name).all()
 
-def get_vendors():
+def get_vendors() -> list[Vendor]:
   return Vendor.query.order_by(Vendor.name).all()
 
-def get_entries():
+def get_entries() -> list[Entry]:
   return Entry.query.order_by(Entry.purchase_date.desc()).all()
 
-def get_entries_paginated(limit, offset):
+def get_entries_paginated(limit, offset) -> list[Entry]:
   print(offset, limit)
   return Entry.query.order_by(Entry.purchase_date.desc()).offset(offset).limit(limit).all()
 
-def get_entries_total():
+def get_entries_total() -> int:
   return Entry.query.count()
 
-def get_entry(needle_id: int):
+def get_entry(needle_id: int) -> Entry:
   return Entry.query.filter_by(id=needle_id).one()
 
-def toggle_received_status(needle_id: int, conf=object):
+# Update requests
+def toggle_received_status(needle_id: int, conf=object) -> Entry:
 
   status = Entry.query.filter_by(id=needle_id).one()
   status.received = False if status.received == True else True
   db.session.commit()
   return status
+
+def update_entry(needle_id: int, entry_data) -> Entry:
+  entry = Entry
+  try:
+    entry = Entry.query.filter_by(id=needle_id).one()
+    entry
+  except:
+    pass
+  return entry

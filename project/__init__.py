@@ -1,9 +1,8 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from urllib.parse import urlparse
 import os
 
-from . import database
 from .extentions import db, migrate
 
 url = urlparse(os.environ.get('DATABASE_URL'))
@@ -40,6 +39,10 @@ def create_app():
     from .routes.api import api as api_blueprint
     app.register_blueprint(api_blueprint)
 
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
     return app
 
     

@@ -69,10 +69,9 @@ class Entry(db.Model):
     notes = Column(String(500))
     is_sold = Column(Boolean, server_default=expression.false(), nullable=False)
     will_sell = Column(Boolean, server_default=expression.true(), nullable=False)
-
     count_include = Column(Boolean, server_default=expression.true(), nullable=False)
-    
     sculpt_style_id = Column(Integer, ForeignKey('styles.id'), nullable=False, default=1)
+    
     maker_name = relationship("Maker", primaryjoin=("and_(Entry.maker_id==Maker.id)"), backref="makers")
     vendor_name = relationship("Vendor", primaryjoin=("and_(Entry.vendor_id==Vendor.id)"), backref="vendors")
     sale_name = relationship("Sale", primaryjoin=("and_(Entry.sale_id==Sale.id)"), backref="sales")
